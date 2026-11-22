@@ -14,3 +14,8 @@ def test_predict_with_model(reviews):
     out = predict.predict(["an excellent and wonderful film", "awful and boring"], model=m)
     assert [r["sentiment"] for r in out] == ["positive", "negative"]
     assert 0 <= out[0]["score"] <= 1
+
+
+def test_main_without_args_exits():
+    with pytest.raises(SystemExit):
+        predict.main([])
