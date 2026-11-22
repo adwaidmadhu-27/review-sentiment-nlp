@@ -15,3 +15,11 @@ def load_model(path: Path = MODELS_DIR / "best_model.joblib"):
     if not path.exists():
         raise FileNotFoundError(f"{path} not found - run `make train` first")
     return joblib.load(path)
+
+
+def predict(texts: list[str], model=None) -> list[dict]:
+    model = model or load_model()
+    labels = model.predict(texts)
+    s = scores(model, texts)
+    return [{"text": t[:80], "sentiment": "positive" if lab == 1 else "negative", "score": round(float(v), 3)}
+            for t, lab, v in zip(texts, labels, s)]
