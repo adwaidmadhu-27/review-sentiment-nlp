@@ -20,3 +20,12 @@ def test_tfidf_logreg_handles_negation(reviews):
 def test_tfidf_svm(reviews):
     m = models.tfidf_svm().fit(reviews["text"], reviews["label"])
     assert (m.predict(reviews["text"]) == reviews["label"]).mean() == 1
+
+
+def test_nb_logreg_ratio_sign(reviews):
+    m = models.nb_logreg().fit(reviews["text"], reviews["label"])
+    vocab = m.named_steps["vec"].vocabulary_
+    r = m.named_steps["clf"].r_
+    assert r[vocab["wonderful"]] > 0 > r[vocab["awful"]]
+    proba = m.predict_proba(["wonderful"])
+    assert proba.shape == (1, 2)
