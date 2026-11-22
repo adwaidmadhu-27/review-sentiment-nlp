@@ -21,3 +21,26 @@ def normalize(text: str) -> str:
     text = re.sub(r"([!?.,;:()\"])", r" \1 ", text)
     text = text.replace("n't", " not")
     return SPACE.sub(" ", text).strip()
+
+
+NEGATIONS = {"not", "no", "never", "nothing", "nobody", "none", "neither", "nor", "without"}
+CLAUSE_END = {".", ",", "!", "?", ";", ":", "but"}
+
+
+def mark_negation(text: str, window: int = 3) -> str:
+    """Prefix up to `window` words after a negation with NOT_ ("not good" ->
+    "not NOT_good"), so the model can learn that negated words flip meaning."""
+    out, left = [], 0
+    for tok in text.split():
+        if tok in CLAUSE_END:
+            left = 0
+            out.append(tok)
+        elif tok in NEGATIONS:
+            left = window
+            out.append(tok)
+        elif left > 0:
+            out.append("NOT_" + tok)
+            left -= 1
+        else:
+            out.append(tok)
+    return " ".join(out)
