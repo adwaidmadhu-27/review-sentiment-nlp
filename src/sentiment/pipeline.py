@@ -27,3 +27,18 @@ def compare_models(train: pd.DataFrame, val: pd.DataFrame) -> tuple[pd.DataFrame
         fitted[name] = model
         print(f"{name}: {rows[name]}")
     return pd.DataFrame(rows).T.sort_values("accuracy", ascending=False), fitted
+
+
+def run() -> dict:
+    TABLES_DIR.mkdir(parents=True, exist_ok=True)
+    MODELS_DIR.mkdir(parents=True, exist_ok=True)
+    raw = load_reviews()
+    df = drop_duplicates(raw)
+    train, val, test = train_val_test(df)
+    data = {"raw_reviews": len(raw), "after_dedup": len(df),
+            "train": len(train), "val": len(val), "test": len(test)}
+    plots.length_hist(df["text"].map(word_count), df["label"], FIGURES_DIR / "review_length.png")
+
+    val_table, fitted = compare_models(train, val)
+    val_table.to_csv(TABLES_DIR / "validation_metrics.csv")
+    plots.model_comparison(val_table, FIGURES_DIR / "model_comparison.png")
