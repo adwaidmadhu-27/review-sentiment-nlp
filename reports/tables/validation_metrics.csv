@@ -1,0 +1,5 @@
+,accuracy,precision,recall,f1,roc_auc,train_seconds
+tfidf_word_char_svm,0.9163,0.9104,0.9242,0.9172,0.9736,74.8
+tfidf_logreg,0.9105,0.9006,0.9237,0.912,0.9728,23.9
+nb_logreg,0.8994,0.8853,0.9186,0.9017,0.9683,26.2
+bow_naive_bayes,0.8321,0.8556,0.8006,0.8272,0.905,6.6

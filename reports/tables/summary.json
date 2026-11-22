@@ -1,0 +1,21 @@
+{
+  "data": {
+    "raw_reviews": 50000,
+    "after_dedup": 49582,
+    "train": 35698,
+    "val": 3967,
+    "test": 9917
+  },
+  "best_model": "tfidf_word_char_svm",
+  "test": {
+    "accuracy": 0.9204,
+    "precision": 0.9145,
+    "recall": 0.9283,
+    "f1": 0.9213,
+    "roc_auc": 0.9751,
+    "accuracy_95ci": [
+      0.915,
+      0.9258
+    ]
+  }
+}

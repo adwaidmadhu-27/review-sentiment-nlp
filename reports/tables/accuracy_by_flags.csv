@@ -1,0 +1,5 @@
+flag,value,reviews,accuracy
+has_negation,True,8835,0.9202
+has_negation,False,1082,0.9224
+has_contrast,True,7694,0.9142
+has_contrast,False,2223,0.942

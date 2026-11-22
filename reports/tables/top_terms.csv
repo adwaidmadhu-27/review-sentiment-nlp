@@ -1,0 +1,51 @@
+term,weight,direction
+great,10.274,positive
+excellent,9.187,positive
+7/10,7.181,positive
+amazing,6.876,positive
+perfect,6.856,positive
+wonderful,6.381,positive
+best,6.177,positive
+brilliant,6.094,positive
+enjoyable,5.554,positive
+favorite,5.525,positive
+hilarious,5.442,positive
+fun,5.408,positive
+superb,5.368,positive
+the best,5.343,positive
+today,5.228,positive
+loved,5.155,positive
+7,5.084,positive
+love,5.002,positive
+dvd,4.973,positive
+strong,4.932,positive
+very good,4.842,positive
+enjoyed,4.839,positive
+worth,4.717,positive
+well,4.713,positive
+is a,4.704,positive
+worst,-12.353,negative
+bad,-11.467,negative
+awful,-11.116,negative
+boring,-10.554,negative
+the worst,-9.442,negative
+poor,-8.857,negative
+terrible,-8.509,negative
+dull,-7.264,negative
+horrible,-7.095,negative
+waste,-7.056,negative
+worse,-7.053,negative
+poorly,-6.691,negative
+nothing,-6.596,negative
+stupid,-6.399,negative
+annoying,-6.344,negative
+fails,-6.057,negative
+lame,-5.949,negative
+NOT_even,-5.939,negative
+?,-5.903,negative
+disappointing,-5.614,negative
+not NOT_even,-5.515,negative
+disappointment,-5.335,negative
+4/10,-5.288,negative
+mess,-5.244,negative
+waste of,-5.178,negative
