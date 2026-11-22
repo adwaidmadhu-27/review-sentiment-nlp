@@ -9,3 +9,9 @@ def test_classification_metrics():
     assert m["precision"] == 1.0
     assert m["recall"] == 0.5
     assert m["roc_auc"] == 1.0
+
+
+def test_confusion_table():
+    t = evaluate.confusion_table([1, 1, 0], [1, 0, 0])
+    assert t.loc["true_pos", "pred_neg"] == 1
+    assert t.values.sum() == 3
