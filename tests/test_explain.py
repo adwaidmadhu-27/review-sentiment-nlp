@@ -14,3 +14,9 @@ def test_top_terms(lr):
     assert len(t) == 10
     assert (t.loc[t["direction"] == "positive", "weight"] > 0).all()
     assert (t.loc[t["direction"] == "negative", "weight"] < 0).all()
+
+
+def test_explain_text(lr):
+    e = explain.explain_text(lr, "a wonderful but boring film", n=3)
+    assert len(e) == 3
+    assert set(e["term"]) & {"wonderful", "boring"}
