@@ -27,3 +27,20 @@ Write-up: [`reports/findings.md`](reports/findings.md)
   reviewers often repeat in the text: a dataset shortcut worth knowing about.
 - **Mixed reviews ("..., but ...") are the hard case**: 91.4% accuracy vs
   94.2% for one-sided reviews.
+
+## Project structure
+
+```
+src/sentiment/
+  io.py          load CSV, map labels, drop duplicate reviews
+  preprocess.py  HTML stripping, normalisation, negation marking
+  split.py       stratified train / validation / test split
+  models.py      Naive Bayes, TF-IDF + LR, NB-LR, word+char SVM
+  evaluate.py    metrics, confusion matrix, bootstrap CI, model selection
+  explain.py     top terms, per-review contributions, negation check
+  errors.py      error analysis by length / negation / contrast
+  plots.py       report figures
+  pipeline.py    train, select, test, write reports
+  predict.py     command-line prediction with the saved model
+tests/           32 pytest tests on a toy corpus
+```
