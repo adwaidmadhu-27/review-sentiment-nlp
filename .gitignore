@@ -1,0 +1,20 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+venv/
+.pytest_cache/
+.ipynb_checkpoints/
+
+# Data (downloaded by scripts/download_data.py)
+data/raw/
+data/processed/
+
+# OS / editor
+.DS_Store
+.vscode/
+.idea/
+
+# Trained models (created by make train)
+models/
