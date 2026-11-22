@@ -44,3 +44,14 @@ def accuracy_by_flags(errs: pd.DataFrame) -> pd.DataFrame:
             rows.append({"flag": name, "value": val, "reviews": len(sub),
                          "accuracy": round(float(sub["correct"].mean()), 4)})
     return pd.DataFrame(rows)
+
+
+def most_confident_mistakes(errs: pd.DataFrame, n: int = 5, chars: int = 300) -> pd.DataFrame:
+    """Wrong predictions with the most extreme scores - often label noise or sarcasm."""
+    wrong = errs[~errs["correct"]].copy()
+    # probabilities are centred on 0.5, SVM margins on 0
+    centre = 0.5 if errs["score"].between(0, 1).all() else 0.0
+    wrong["confidence"] = (wrong["score"] - centre).abs()
+    top = wrong.nlargest(n, "confidence")
+    top["snippet"] = top["text"].str.replace(r"<[^>]+>", " ", regex=True).str[:chars]
+    return top[["label", "score", "words", "snippet"]].reset_index(drop=True)
