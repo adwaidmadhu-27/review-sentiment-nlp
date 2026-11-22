@@ -51,3 +51,9 @@ def run() -> dict:
     test_metrics["accuracy_95ci"] = [round(x, 4) for x in evaluate.bootstrap_ci(test["label"], pred)]
     evaluate.confusion_table(test["label"], pred).to_csv(TABLES_DIR / "test_confusion.csv")
     joblib.dump(best, MODELS_DIR / "best_model.joblib")
+    errs = errors.error_frame(test["text"], test["label"], pred, score)
+    by_len = errors.accuracy_by_length(errs)
+    by_len.to_csv(TABLES_DIR / "accuracy_by_length.csv")
+    errors.accuracy_by_flags(errs).to_csv(TABLES_DIR / "accuracy_by_flags.csv", index=False)
+    errors.most_confident_mistakes(errs).to_csv(TABLES_DIR / "confident_mistakes.csv", index=False)
+    plots.accuracy_by_length_chart(by_len, FIGURES_DIR / "accuracy_by_length.png")
