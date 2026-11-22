@@ -9,3 +9,9 @@
 
 No stop-word removal or stemming: stop-word lists usually contain *not* and
 *no*, which carry a lot of sentiment.
+
+## Features
+- **Word TF-IDF**: unigrams + bigrams, min document frequency 2, top 200k
+  terms, sublinear TF (log scaling of counts).
+- **Character TF-IDF** (SVM only): 3–5-grams within word boundaries. Helps
+  with misspellings and creative spelling.
