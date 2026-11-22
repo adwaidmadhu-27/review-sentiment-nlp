@@ -29,3 +29,7 @@ def test_nb_logreg_ratio_sign(reviews):
     assert r[vocab["wonderful"]] > 0 > r[vocab["awful"]]
     proba = m.predict_proba(["wonderful"])
     assert proba.shape == (1, 2)
+
+
+def test_all_models_registry():
+    assert set(models.all_models()) == {"bow_naive_bayes", "tfidf_logreg", "nb_logreg", "tfidf_word_char_svm"}
