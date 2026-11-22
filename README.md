@@ -15,3 +15,5 @@ error analysis.
 | Simple baseline (Naive Bayes) | 83.2% |
 
 Write-up: [`reports/findings.md`](reports/findings.md)
+
+![Model comparison](reports/figures/model_comparison.png)
