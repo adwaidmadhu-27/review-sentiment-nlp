@@ -25,3 +25,7 @@ def test_negation_stops_at_but():
 def test_clean_combines_steps():
     assert pp.clean("It wasn't good<br />") == "it was not NOT_good"
     assert pp.clean("It wasn't good", negation=False) == "it was not good"
+
+
+def test_word_count_ignores_tags():
+    assert pp.word_count("one<br />two three") == 3
