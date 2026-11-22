@@ -30,3 +30,8 @@ def bootstrap_ci(y_true, y_pred, n: int = 1000, seed: int = 0, level: float = 0.
     stats = [correct[rng.integers(0, len(correct), len(correct))].mean() for _ in range(n)]
     lo, hi = np.quantile(stats, [(1 - level) / 2, 1 - (1 - level) / 2])
     return float(lo), float(hi)
+
+
+def select_best(val_scores: dict[str, dict], metric: str = "accuracy") -> str:
+    """Pick the model with the best validation score (never the test score)."""
+    return max(val_scores, key=lambda name: val_scores[name][metric])
