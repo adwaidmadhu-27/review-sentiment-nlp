@@ -17,3 +17,10 @@ def test_error_frame():
 def test_accuracy_by_length():
     t = errors.accuracy_by_length(_errs())
     assert t["reviews"].sum() == 4
+
+
+def test_accuracy_by_flags():
+    t = errors.accuracy_by_flags(_errs())
+    neg = t[(t["flag"] == "has_negation") & t["value"]]
+    assert neg["reviews"].iat[0] == 1
+    assert errors.has_contrast("Bad, but fine")
