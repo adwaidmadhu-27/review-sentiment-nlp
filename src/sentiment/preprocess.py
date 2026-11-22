@@ -44,3 +44,9 @@ def mark_negation(text: str, window: int = 3) -> str:
         else:
             out.append(tok)
     return " ".join(out)
+
+
+def clean(text: str, negation: bool = True) -> str:
+    """Full preprocessing used by every model."""
+    t = normalize(text)
+    return mark_negation(t) if negation else t
