@@ -19,3 +19,11 @@ Write-up: [`reports/findings.md`](reports/findings.md)
 ![Model comparison](reports/figures/model_comparison.png)
 
 ![Top terms](reports/figures/top_terms.png)
+
+## Interesting findings
+- **Negation marking flips meaning**: *boring* has weight -10.6, *not boring*
+  has +0.7.
+- **"7/10" is a top-3 positive feature.** Labels come from star ratings that
+  reviewers often repeat in the text: a dataset shortcut worth knowing about.
+- **Mixed reviews ("..., but ...") are the hard case**: 91.4% accuracy vs
+  94.2% for one-sided reviews.
