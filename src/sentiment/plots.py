@@ -28,3 +28,16 @@ def length_hist(words: pd.Series, labels: pd.Series, path: Path) -> Path:
     ax.legend(frameon=False)
     ax.spines[["top", "right"]].set_visible(False)
     return _save(fig, path)
+
+
+def model_comparison(metrics: pd.DataFrame, path: Path) -> Path:
+    m = metrics.sort_values("accuracy")
+    fig, ax = plt.subplots(figsize=(7, 3.2))
+    ax.barh(m.index, m["accuracy"] * 100, color=[GREY] * (len(m) - 1) + [BLUE])
+    for i, v in enumerate(m["accuracy"] * 100):
+        ax.text(v, i, f" {v:.2f}%", va="center")
+    ax.set_xlim(80, 95)
+    ax.set_xlabel("Validation accuracy (%)")
+    ax.set_title("Model comparison")
+    ax.spines[["top", "right"]].set_visible(False)
+    return _save(fig, path)
