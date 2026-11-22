@@ -33,3 +33,15 @@ def tfidf_logreg(C: float = 4.0) -> Pipeline:
         ("vec", word_tfidf()),
         ("clf", LogisticRegression(C=C, max_iter=2000, random_state=SEED)),
     ])
+
+
+def tfidf_svm(C: float = 0.5) -> Pipeline:
+    """Word + character n-grams + linear SVM. Char n-grams catch misspellings
+    ("borrring") and word pieces."""
+    feats = FeatureUnion([
+        ("word", word_tfidf()),
+        ("char", TfidfVectorizer(preprocessor=partial(clean, negation=False), analyzer="char_wb",
+                                 ngram_range=(3, 5), min_df=5, max_features=200_000,
+                                 sublinear_tf=True)),
+    ])
+    return Pipeline([("vec", feats), ("clf", LinearSVC(C=C, random_state=SEED))])
