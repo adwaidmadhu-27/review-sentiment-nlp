@@ -26,3 +26,20 @@ def explain_text(pipeline, text: str, n: int = 8) -> pd.DataFrame:
     contrib = pd.DataFrame({"term": terms[x.col], "contribution": x.data * coef[x.col]})
     contrib["abs"] = contrib["contribution"].abs()
     return contrib.nlargest(n, "abs").drop(columns="abs").reset_index(drop=True)
+
+
+def negation_terms(pipeline, n: int = 10) -> pd.DataFrame:
+    """Weights of NOT_-marked tokens next to their plain versions, to check that
+    negation marking actually flips meaning."""
+    vec = pipeline.named_steps["vec"]
+    coef = pipeline.named_steps["clf"].coef_.ravel()
+    vocab = vec.vocabulary_
+    rows = []
+    for term, idx in vocab.items():
+        if term.startswith("NOT_") and " " not in term:
+            plain = term[4:]
+            if plain in vocab:
+                rows.append((plain, coef[vocab[plain]], coef[idx]))
+    out = pd.DataFrame(rows, columns=["word", "weight", "weight_when_negated"])
+    out["abs"] = out["weight"].abs()
+    return out.nlargest(n, "abs").drop(columns="abs").reset_index(drop=True)
