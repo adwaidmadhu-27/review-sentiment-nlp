@@ -11,3 +11,12 @@ def test_normalize():
     assert "did not" in out
     assert out == out.lower()
     assert "!" in out.split()
+
+
+def test_mark_negation_window_and_clause_end():
+    out = pp.mark_negation("this is not good at all . but fun")
+    assert out == "this is not NOT_good NOT_at NOT_all . but fun"
+
+
+def test_negation_stops_at_but():
+    assert pp.mark_negation("not funny but clever") == "not NOT_funny but clever"
