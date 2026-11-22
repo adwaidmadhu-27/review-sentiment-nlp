@@ -23,3 +23,12 @@ No stop-word removal or stemming: stop-word lists usually contain *not* and
 | Logistic regression | C = 4, weights are directly interpretable |
 | NB-LR | features scaled by the Naive Bayes log-count ratio (Wang & Manning, 2012) |
 | Linear SVM | word + char TF-IDF, C = 0.5 |
+
+## Evaluation protocol
+- Remove exact duplicate reviews **before** splitting.
+- 72 / 8 / 20 stratified split with a fixed seed.
+- Compare models on validation only. The test set is used once, for the
+  chosen model.
+- Report accuracy with a 95% bootstrap confidence interval, so small
+  differences between models are not over-read.
+- Error analysis by review length, negation, and contrast words.
