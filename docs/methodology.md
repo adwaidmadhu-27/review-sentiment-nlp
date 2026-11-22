@@ -15,3 +15,11 @@ No stop-word removal or stemming: stop-word lists usually contain *not* and
   terms, sublinear TF (log scaling of counts).
 - **Character TF-IDF** (SVM only): 3–5-grams within word boundaries. Helps
   with misspellings and creative spelling.
+
+## Models
+| Model | Notes |
+|---|---|
+| Multinomial Naive Bayes | raw counts, no negation marking - the baseline |
+| Logistic regression | C = 4, weights are directly interpretable |
+| NB-LR | features scaled by the Naive Bayes log-count ratio (Wang & Manning, 2012) |
+| Linear SVM | word + char TF-IDF, C = 0.5 |
