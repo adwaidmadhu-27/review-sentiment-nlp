@@ -63,3 +63,10 @@ def run() -> dict:
     terms.round(3).to_csv(TABLES_DIR / "top_terms.csv", index=False)
     explain.negation_terms(lr, 15).round(3).to_csv(TABLES_DIR / "negation_terms.csv", index=False)
     plots.top_terms_chart(terms, FIGURES_DIR / "top_terms.png")
+    summary = {"data": data, "best_model": best_name, "test": test_metrics}
+    (TABLES_DIR / "summary.json").write_text(json.dumps(summary, indent=2))
+    return summary
+
+
+if __name__ == "__main__":
+    print(json.dumps(run(), indent=2))
