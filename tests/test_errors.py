@@ -12,3 +12,8 @@ def test_error_frame():
     e = _errs()
     assert e["correct"].tolist() == [True, False, True, False]
     assert e["words"].iloc[0] == 120
+
+
+def test_accuracy_by_length():
+    t = errors.accuracy_by_length(_errs())
+    assert t["reviews"].sum() == 4
