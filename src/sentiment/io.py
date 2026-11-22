@@ -20,3 +20,9 @@ def load_reviews(path: Path | str = RAW_CSV) -> pd.DataFrame:
         raise ValueError("unexpected sentiment values")
     df["label"] = df["label"].astype(int)
     return df
+
+
+def drop_duplicates(df: pd.DataFrame) -> pd.DataFrame:
+    """The dataset has ~400 exact duplicate reviews. Keeping them would let the
+    same text appear in both train and test and inflate the score."""
+    return df.drop_duplicates(subset="text").reset_index(drop=True)
