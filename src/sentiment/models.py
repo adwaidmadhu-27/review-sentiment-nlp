@@ -45,3 +45,39 @@ def tfidf_svm(C: float = 0.5) -> Pipeline:
                                  sublinear_tf=True)),
     ])
     return Pipeline([("vec", feats), ("clf", LinearSVC(C=C, random_state=SEED))])
+
+
+class NBLogisticRegression(BaseEstimator, ClassifierMixin):
+    """NB-LR (Wang & Manning, 2012): scale features by the Naive Bayes
+    log-count ratio, then fit logistic regression. A strong classic baseline
+    for sentiment."""
+
+    def __init__(self, C: float = 4.0, alpha: float = 1.0):
+        self.C = C
+        self.alpha = alpha
+
+    def fit(self, X, y):
+        y = np.asarray(y)
+        p = self.alpha + X[y == 1].sum(axis=0)
+        q = self.alpha + X[y == 0].sum(axis=0)
+        self.r_ = np.asarray(np.log((p / p.sum()) / (q / q.sum()))).ravel()
+        self.lr_ = LogisticRegression(C=self.C, max_iter=2000, random_state=SEED)
+        self.lr_.fit(self._scale(X), y)
+        self.classes_ = self.lr_.classes_
+        return self
+
+    def _scale(self, X):
+        return sparse.csr_matrix(X).multiply(self.r_).tocsr()
+
+    def predict(self, X):
+        return self.lr_.predict(self._scale(X))
+
+    def predict_proba(self, X):
+        return self.lr_.predict_proba(self._scale(X))
+
+    def decision_function(self, X):
+        return self.lr_.decision_function(self._scale(X))
+
+
+def nb_logreg() -> Pipeline:
+    return Pipeline([("vec", word_tfidf()), ("clf", NBLogisticRegression())])
