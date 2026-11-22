@@ -20,3 +20,8 @@ def test_explain_text(lr):
     e = explain.explain_text(lr, "a wonderful but boring film", n=3)
     assert len(e) == 3
     assert set(e["term"]) & {"wonderful", "boring"}
+
+
+def test_negation_terms(lr):
+    n = explain.negation_terms(lr)
+    assert {"word", "weight", "weight_when_negated"} <= set(n.columns)
