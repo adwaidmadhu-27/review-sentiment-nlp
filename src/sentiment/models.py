@@ -90,3 +90,10 @@ def all_models() -> dict:
         "nb_logreg": nb_logreg(),
         "tfidf_word_char_svm": tfidf_svm(),
     }
+
+
+def scores(model, texts) -> np.ndarray:
+    """Continuous score for ranking metrics (probability or SVM margin)."""
+    if hasattr(model, "predict_proba"):
+        return model.predict_proba(texts)[:, 1]
+    return model.decision_function(texts)
