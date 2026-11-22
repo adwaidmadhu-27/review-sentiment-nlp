@@ -33,3 +33,10 @@ def test_nb_logreg_ratio_sign(reviews):
 
 def test_all_models_registry():
     assert set(models.all_models()) == {"bow_naive_bayes", "tfidf_logreg", "nb_logreg", "tfidf_word_char_svm"}
+
+
+@pytest.mark.parametrize("factory", [models.tfidf_logreg, models.tfidf_svm])
+def test_scores_are_continuous(reviews, factory):
+    m = factory().fit(reviews["text"], reviews["label"])
+    s = models.scores(m, ["great film", "awful film"])
+    assert s.dtype == np.float64 and s[0] > s[1]
