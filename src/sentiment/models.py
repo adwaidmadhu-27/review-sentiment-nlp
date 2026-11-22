@@ -20,3 +20,16 @@ def bag_of_words_nb() -> Pipeline:
         ("vec", CountVectorizer(preprocessor=partial(clean, negation=False), min_df=2)),
         ("clf", MultinomialNB()),
     ])
+
+
+def word_tfidf(ngram_range=(1, 2), min_df: int = 2, max_features: int = 200_000) -> TfidfVectorizer:
+    return TfidfVectorizer(preprocessor=clean, ngram_range=ngram_range, min_df=min_df,
+                           max_features=max_features, sublinear_tf=True, token_pattern=r"\S+")
+
+
+def tfidf_logreg(C: float = 4.0) -> Pipeline:
+    """Word uni+bigram TF-IDF with negation marking + logistic regression."""
+    return Pipeline([
+        ("vec", word_tfidf()),
+        ("clf", LogisticRegression(C=C, max_iter=2000, random_state=SEED)),
+    ])
