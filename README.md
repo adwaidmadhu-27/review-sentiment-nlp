@@ -44,3 +44,13 @@ src/sentiment/
   predict.py     command-line prediction with the saved model
 tests/           32 pytest tests on a toy corpus
 ```
+
+## Run it
+
+```bash
+pip install -r requirements.txt
+make data                       # data/raw/imdb.csv (~66 MB)
+make train                      # ~4 min, saves models/best_model.joblib
+make predict TEXT="Slow start, but the ending was brilliant"
+make test
+```
