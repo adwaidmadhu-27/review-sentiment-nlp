@@ -23,3 +23,14 @@ def predict(texts: list[str], model=None) -> list[dict]:
     s = scores(model, texts)
     return [{"text": t[:80], "sentiment": "positive" if lab == 1 else "negative", "score": round(float(v), 3)}
             for t, lab, v in zip(texts, labels, s)]
+
+
+def main(argv: list[str]) -> None:
+    if not argv:
+        sys.exit('usage: python -m sentiment.predict "review text" ["another review" ...]')
+    for row in predict(argv):
+        print(f"{row['sentiment']:>8}  {row['score']:>7}  {row['text']}")
+
+
+if __name__ == "__main__":
+    main(sys.argv[1:])
