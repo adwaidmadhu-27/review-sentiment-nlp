@@ -15,3 +15,8 @@ def test_tfidf_logreg_handles_negation(reviews):
     assert m.predict(["truly awful and boring"])[0] == 0
     vocab = m.named_steps["vec"].vocabulary_
     assert any(t.startswith("NOT_") for t in vocab)
+
+
+def test_tfidf_svm(reviews):
+    m = models.tfidf_svm().fit(reviews["text"], reviews["label"])
+    assert (m.predict(reviews["text"]) == reviews["label"]).mean() == 1
