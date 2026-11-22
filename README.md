@@ -54,3 +54,14 @@ make train                      # ~4 min, saves models/best_model.joblib
 make predict TEXT="Slow start, but the ending was brilliant"
 make test
 ```
+
+## Next steps
+- Fine-tune DistilBERT and compare on the mixed-review subset.
+- Retrain with `\d+/10` ratings masked to remove the rating shortcut.
+- Serve `predict.py` behind a small FastAPI endpoint.
+
+## Data
+Maas et al. (2011), *Large Movie Review Dataset*. See [`data/README.md`](data/README.md).
+
+## License
+MIT
