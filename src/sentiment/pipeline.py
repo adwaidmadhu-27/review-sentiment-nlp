@@ -42,3 +42,12 @@ def run() -> dict:
     val_table, fitted = compare_models(train, val)
     val_table.to_csv(TABLES_DIR / "validation_metrics.csv")
     plots.model_comparison(val_table, FIGURES_DIR / "model_comparison.png")
+    best_name = evaluate.select_best(val_table.to_dict(orient="index"))
+    best = fitted[best_name].fit(pd.concat([train["text"], val["text"]]),
+                                 pd.concat([train["label"], val["label"]]))
+    pred = best.predict(test["text"])
+    score = scores(best, test["text"])
+    test_metrics = evaluate.classification_metrics(test["label"], pred, score)
+    test_metrics["accuracy_95ci"] = [round(x, 4) for x in evaluate.bootstrap_ci(test["label"], pred)]
+    evaluate.confusion_table(test["label"], pred).to_csv(TABLES_DIR / "test_confusion.csv")
+    joblib.dump(best, MODELS_DIR / "best_model.joblib")
