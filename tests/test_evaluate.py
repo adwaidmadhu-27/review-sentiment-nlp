@@ -15,3 +15,10 @@ def test_confusion_table():
     t = evaluate.confusion_table([1, 1, 0], [1, 0, 0])
     assert t.loc["true_pos", "pred_neg"] == 1
     assert t.values.sum() == 3
+
+
+def test_bootstrap_ci_contains_point_estimate():
+    y = [1, 0] * 200
+    pred = [1, 0] * 180 + [0, 1] * 20
+    lo, hi = evaluate.bootstrap_ci(y, pred, n=300)
+    assert lo < 0.9 < hi
