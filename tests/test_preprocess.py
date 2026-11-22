@@ -20,3 +20,8 @@ def test_mark_negation_window_and_clause_end():
 
 def test_negation_stops_at_but():
     assert pp.mark_negation("not funny but clever") == "not NOT_funny but clever"
+
+
+def test_clean_combines_steps():
+    assert pp.clean("It wasn't good<br />") == "it was not NOT_good"
+    assert pp.clean("It wasn't good", negation=False) == "it was not good"
