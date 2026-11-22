@@ -17,3 +17,5 @@ error analysis.
 Write-up: [`reports/findings.md`](reports/findings.md)
 
 ![Model comparison](reports/figures/model_comparison.png)
+
+![Top terms](reports/figures/top_terms.png)
