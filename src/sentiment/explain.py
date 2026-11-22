@@ -14,3 +14,15 @@ def top_terms(pipeline, n: int = 20) -> pd.DataFrame:
     pos = pd.DataFrame({"term": terms[order[::-1][:n]], "weight": coef[order[::-1][:n]]})
     return pd.concat([pos.assign(direction="positive"), neg.assign(direction="negative")],
                      ignore_index=True)
+
+
+def explain_text(pipeline, text: str, n: int = 8) -> pd.DataFrame:
+    """Terms in one review that pushed the prediction most, with contribution =
+    tf-idf value x weight."""
+    vec = pipeline.named_steps["vec"]
+    coef = pipeline.named_steps["clf"].coef_.ravel()
+    x = vec.transform([text]).tocoo()
+    terms = vec.get_feature_names_out()
+    contrib = pd.DataFrame({"term": terms[x.col], "contribution": x.data * coef[x.col]})
+    contrib["abs"] = contrib["contribution"].abs()
+    return contrib.nlargest(n, "abs").drop(columns="abs").reset_index(drop=True)
