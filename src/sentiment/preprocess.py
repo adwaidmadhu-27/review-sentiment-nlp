@@ -50,3 +50,7 @@ def clean(text: str, negation: bool = True) -> str:
     """Full preprocessing used by every model."""
     t = normalize(text)
     return mark_negation(t) if negation else t
+
+
+def word_count(text: str) -> int:
+    return len(strip_html(text).split())
