@@ -16,3 +16,10 @@ def error_frame(texts: pd.Series, y_true, y_pred, y_score) -> pd.DataFrame:
     out["correct"] = out["label"] == out["pred"]
     out["words"] = out["text"].map(word_count)
     return out
+
+
+def accuracy_by_length(errs: pd.DataFrame, bins=(0, 100, 200, 400, 800, 10_000)) -> pd.DataFrame:
+    """Short reviews carry less evidence - check how accuracy changes with length."""
+    bucket = pd.cut(errs["words"], bins=list(bins), right=False)
+    g = errs.groupby(bucket, observed=True)["correct"]
+    return pd.DataFrame({"reviews": g.size(), "accuracy": g.mean().round(4)})
