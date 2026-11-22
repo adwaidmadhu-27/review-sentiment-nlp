@@ -81,3 +81,12 @@ class NBLogisticRegression(BaseEstimator, ClassifierMixin):
 
 def nb_logreg() -> Pipeline:
     return Pipeline([("vec", word_tfidf()), ("clf", NBLogisticRegression())])
+
+
+def all_models() -> dict:
+    return {
+        "bow_naive_bayes": bag_of_words_nb(),
+        "tfidf_logreg": tfidf_logreg(),
+        "nb_logreg": nb_logreg(),
+        "tfidf_word_char_svm": tfidf_svm(),
+    }
