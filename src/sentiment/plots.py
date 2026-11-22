@@ -41,3 +41,16 @@ def model_comparison(metrics: pd.DataFrame, path: Path) -> Path:
     ax.set_title("Model comparison")
     ax.spines[["top", "right"]].set_visible(False)
     return _save(fig, path)
+
+
+def top_terms_chart(terms: pd.DataFrame, path: Path, n: int = 15) -> Path:
+    pos = terms[terms["direction"] == "positive"].head(n).iloc[::-1]
+    neg = terms[terms["direction"] == "negative"].head(n).iloc[::-1]
+    fig, axes = plt.subplots(1, 2, figsize=(10, 5))
+    axes[0].barh(neg["term"], neg["weight"], color=RED)
+    axes[0].set_title("Most negative terms")
+    axes[1].barh(pos["term"], pos["weight"], color=BLUE)
+    axes[1].set_title("Most positive terms")
+    for ax in axes:
+        ax.spines[["top", "right"]].set_visible(False)
+    return _save(fig, path)
