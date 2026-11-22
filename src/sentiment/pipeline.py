@@ -57,3 +57,9 @@ def run() -> dict:
     errors.accuracy_by_flags(errs).to_csv(TABLES_DIR / "accuracy_by_flags.csv", index=False)
     errors.most_confident_mistakes(errs).to_csv(TABLES_DIR / "confident_mistakes.csv", index=False)
     plots.accuracy_by_length_chart(by_len, FIGURES_DIR / "accuracy_by_length.png")
+    # interpretation always uses the logistic regression, whose weights are readable
+    lr = fitted["tfidf_logreg"] if best_name == "tfidf_logreg" else tfidf_logreg().fit(train["text"], train["label"])
+    terms = explain.top_terms(lr, 25)
+    terms.round(3).to_csv(TABLES_DIR / "top_terms.csv", index=False)
+    explain.negation_terms(lr, 15).round(3).to_csv(TABLES_DIR / "negation_terms.csv", index=False)
+    plots.top_terms_chart(terms, FIGURES_DIR / "top_terms.png")
