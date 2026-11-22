@@ -54,3 +54,17 @@ def top_terms_chart(terms: pd.DataFrame, path: Path, n: int = 15) -> Path:
     for ax in axes:
         ax.spines[["top", "right"]].set_visible(False)
     return _save(fig, path)
+
+
+def accuracy_by_length_chart(table: pd.DataFrame, path: Path) -> Path:
+    fig, ax = plt.subplots(figsize=(7, 3.2))
+    labels = [str(i) for i in table.index]
+    ax.bar(labels, table["accuracy"] * 100, color=BLUE)
+    for i, v in enumerate(table["accuracy"] * 100):
+        ax.text(i, v, f"{v:.1f}", ha="center", va="bottom")
+    ax.set_ylim(80, 100)
+    ax.set_xlabel("Review length (words)")
+    ax.set_ylabel("Test accuracy (%)")
+    ax.set_title("Accuracy by review length")
+    ax.spines[["top", "right"]].set_visible(False)
+    return _save(fig, path)
