@@ -22,3 +22,10 @@ def test_bootstrap_ci_contains_point_estimate():
     pred = [1, 0] * 180 + [0, 1] * 20
     lo, hi = evaluate.bootstrap_ci(y, pred, n=300)
     assert lo < 0.9 < hi
+
+
+def test_select_best():
+    scores = {"a": {"accuracy": 0.8}, "b": {"accuracy": 0.9}}
+    assert evaluate.select_best(scores) == "b"
+    with pytest.raises(KeyError):
+        evaluate.select_best(scores, metric="f2")
