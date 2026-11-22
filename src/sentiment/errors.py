@@ -23,3 +23,24 @@ def accuracy_by_length(errs: pd.DataFrame, bins=(0, 100, 200, 400, 800, 10_000))
     bucket = pd.cut(errs["words"], bins=list(bins), right=False)
     g = errs.groupby(bucket, observed=True)["correct"]
     return pd.DataFrame({"reviews": g.size(), "accuracy": g.mean().round(4)})
+
+
+def has_contrast(text: str) -> bool:
+    """Reviews that turn around mid-way ("... but ...", "however") are harder."""
+    t = normalize(text)
+    return any(w in t.split() for w in ("but", "however", "although", "though"))
+
+
+def accuracy_by_flags(errs: pd.DataFrame) -> pd.DataFrame:
+    norm = errs["text"].map(normalize).str.split()
+    flags = {
+        "has_negation": norm.map(lambda ws: any(w in NEGATIONS for w in ws)),
+        "has_contrast": errs["text"].map(has_contrast),
+    }
+    rows = []
+    for name, f in flags.items():
+        for val in (True, False):
+            sub = errs[f == val]
+            rows.append({"flag": name, "value": val, "reviews": len(sub),
+                         "accuracy": round(float(sub["correct"].mean()), 4)})
+    return pd.DataFrame(rows)
