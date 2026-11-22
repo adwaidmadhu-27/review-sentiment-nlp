@@ -24,3 +24,8 @@ def test_accuracy_by_flags():
     neg = t[(t["flag"] == "has_negation") & t["value"]]
     assert neg["reviews"].iat[0] == 1
     assert errors.has_contrast("Bad, but fine")
+
+
+def test_most_confident_mistakes():
+    m = errors.most_confident_mistakes(_errs(), n=1)
+    assert m["score"].iat[0] == 0.95
